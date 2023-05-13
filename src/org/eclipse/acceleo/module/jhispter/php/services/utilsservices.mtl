@@ -1,0 +1,39 @@
+[comment encoding = UTF-8 /]
+[module utilsservices('http://www.github.io/jhipster/jdl/JDL')/]
+
+[query public getConstructorArgs(arg0 : JdlEntity) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getConstructorArgs(io.github.jhipster.jdl.jdl.JdlEntity)', Sequence{arg0})
+/]
+
+[query public getConstructorArgsAction(arg0 : JdlEntity) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getConstructorArgsAction(io.github.jhipster.jdl.jdl.JdlEntity)', Sequence{arg0})
+/]
+
+[query public getValidationsListAction(arg0 : JdlEntity) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getValidationsListAction(io.github.jhipster.jdl.jdl.JdlEntity)', Sequence{arg0})
+/]
+
+[query public getCharIfIsMandatory(arg0 : JdlEntityField) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getCharIfIsMandatory(io.github.jhipster.jdl.jdl.JdlEntityField)', Sequence{arg0})
+/]
+
+[query public ifIsMandatory(arg0 : JdlEntityField) : Boolean
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'ifIsMandatory(io.github.jhipster.jdl.jdl.JdlEntityField)', Sequence{arg0})
+/]
+
+[query public getFieldDataType(arg0 : JdlEntityField) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getFieldDataType(io.github.jhipster.jdl.jdl.JdlEntityField)', Sequence{arg0})
+/]
+
+[query public getEntityFieldTypeName(arg0 : JdlFieldType) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getEntityFieldTypeName(io.github.jhipster.jdl.jdl.JdlFieldType)', Sequence{arg0})
+/]
+
+[query public getNumericDataTypeNamePhp(arg0 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getNumericDataTypeNamePhp(java.lang.String)', Sequence{arg0})
+/]
+
+[query public camelToSnake(arg0 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'camelToSnake(java.lang.String)', Sequence{arg0})
+/]
+

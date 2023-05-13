@@ -1,0 +1,14 @@
+[comment encoding = UTF-8 /]
+[**
+ * The documentation of the module generateUtils.
+ */]
+[module generateUtils('http://www.github.io/jhipster/jdl/JDL')]
+
+
+[query public isClassValid(aJdlEntity : JdlEntity) : Boolean =
+	if aJdlEntity.name.contains('Authority') or aJdlEntity.name.contains('User') then
+		false
+	else
+		true
+	endif
+	/]

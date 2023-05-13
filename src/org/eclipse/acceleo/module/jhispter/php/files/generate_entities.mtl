@@ -1,0 +1,127 @@
+[comment encoding = UTF-8 /]
+[module generate_entities('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+
+[template public generateEntity(aJdlEntity : JdlEntity)]
+[file (aJdlEntity.name.getFileName(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Domain\Entities;
+
+use DateTime;
+use JsonSerializable;
+//use DateTimeImmutable;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+use Interlemd\Domain\Entities\Enums;
+
+['#[Entity, Table(name: \''.concat(camelToSnake(aJdlEntity.name)).concat('\')]')/]
+class [aJdlEntity.name/] implements JsonSerializable
+{
+['#[Id, Column(type: \'int\', unique: true, nullable: false, length:50)]'/]
+private int $id;
+
+[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
+['#[Column(name:\''.concat(aEntityField.name.camelToSnake()).concat('\'')/][aEntityField.type.getValueForEnum().concat(')]')/]
+private [aEntityField.eAllContents().toString().hasValidator()/][aEntityField.type.getEntityFieldTypeName()/] [aEntityField.name/];
+[/for]
+public function __construct(?int $id, [aJdlEntity.getConstructorArgs()/])
+    {
+		$this->id				=$id;
+[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
+		$this->[aEntityField.name/]				=$[aEntityField.name/];
+[/for]
+    }
+
+['#[\\ReturnTypeWillChange]'/]
+public function jsonSerialize(): array
+    {
+        return ['['/]
+		'id'				=>  $this->id,
+[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
+		'[aEntityField.name/]'				=>  $this->[aEntityField.name/],
+[/for]
+        [']'/];
+    }
+[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
+public function get[aEntityField.name.toUpperFirst()/]()
+        {
+                return $this->[aEntityField.name/];
+        }
+
+public function set[aEntityField.name.toUpperFirst()/]([aEntityField.name/])
+    {
+        $this->[aEntityField.name/] = $[aEntityField.name/];
+        return $this;
+    }
+
+[/for] 
+}
+[/file]
+[/template]
+
+[query public getEntityFieldTypeName(jdlEntityField : JdlFieldType) : String =
+	if jdlEntityField.oclIsKindOf(JdlStringFieldType) then
+			'string'
+		else if jdlEntityField.oclIsKindOf(JdlEnumFieldType)  then
+			jdlEntityField.oclAsType(JdlEnumFieldType).element.name
+			else if jdlEntityField.oclIsKindOf(JdlBooleanFieldType)  then
+				'bool'
+			else if jdlEntityField.oclIsKindOf(JdlDateFieldType)  then
+				'DateTime'
+			else if jdlEntityField.oclIsKindOf(JdlNumericFieldType)  then
+					jdlEntityField.oclAsType(JdlNumericFieldType).element.toString().getDataTypeNamePhp()
+			else
+			jdlEntityField.eGet('element')			
+			endif
+			endif
+			endif
+			endif
+	endif
+		/]
+[query public getFileName(name : String) : String =
+	'src\\Domain\\Entities\\'+ name.concat('.php')
+	/]
+[query public getEnumFileName(name : String) : String =
+	'src\\Domain\\Entities\\Enums\\'+ name.concat('.php')
+	/]
+
+[query public getDataTypeNamePhp(element : String) : String =
+	if element.equalsIgnoreCase('Integer') or element.equalsIgnoreCase('Long') then
+		'int'
+	else if element.equalsIgnoreCase('Double') then
+		'double'
+	else
+		element
+	endif
+	endif
+	/]
+[query public hasValidator(name : String) : String =
+	if name.contains('ValidatorImpl') then
+		'?'
+	else
+		''
+	endif
+	/]
+
+[query public getValueForEnum(jdlEntityField : JdlFieldType) : String =
+if jdlEntityField.isEnumClass() then
+		', enumType:'+ jdlEntityField.oclAsType(JdlEnumFieldType).element.name+'::class'
+	else
+		''
+	endif
+
+		/]
+
+[query public isEnumClass(jdlEntityField : JdlFieldType) : Boolean =
+	jdlEntityField.oclIsKindOf(JdlEnumFieldType)
+		/]
+
+
+
+

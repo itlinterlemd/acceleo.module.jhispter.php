@@ -1,0 +1,28 @@
+[comment encoding = UTF-8 /]
+[module generate_enums('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+
+[template public generateEnum(jdlEnum : JdlEnum)]
+[file (jdlEnum.name.getEnumFileName(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Domain\Entities\Enums;
+
+enum [jdlEnum.name/]
+{
+[for (aJdlEnumValue : JdlEnumValue| jdlEnum.values)]
+case [aJdlEnumValue.value/];
+[/for]
+}
+
+[/file]
+[/template]
+[query public getEnumFileName(name : String) : String =
+	'src\\Domain\\Entities\\Enums\\'+ name.concat('.php')
+	/]
+
+
+
+

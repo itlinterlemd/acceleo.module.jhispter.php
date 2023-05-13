@@ -1,0 +1,121 @@
+[comment encoding = UTF-8 /]
+[module generate_entities_repository_impl('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+
+[template public generateEntityRepositoryImpl(aJdlEntity : JdlEntity)]
+[file (aJdlEntity.name.getFileNameRepositoryImpl(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Infrastructure\Persistence\Mysql;
+
+//use Interlemd\Domain\Entities;
+use Interlemd\Domain\Entities\[aJdlEntity.name/];
+use Interlemd\Domain\Exceptions\PersistenceException;
+use Interlemd\Domain\Exceptions\EntityNotFoundException;
+use Interlemd\Repositories\[aJdlEntity.name/]\[aJdlEntity.name/]Repository;
+use Doctrine\ORM\EntityManager;
+use Exception;
+class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
+{
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+
+    public function findAll(): array
+    {
+        return  $this->em-> getRepository([aJdlEntity.name/]::class)
+        ->findAll();//array_values($this->[aJdlEntity.name.toLowerFirst()/]s);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find[aJdlEntity.name/]OfId(int $id): [aJdlEntity.name/]
+    {
+        $[aJdlEntity.name.toLowerFirst()/]  =$this->em-> getRepository([aJdlEntity.name/]::class)
+        ->findOneBy(array('id' => $id));
+        if (!isset($[aJdlEntity.name.toLowerFirst()/])) {
+            throw new [aJdlEntity.name/]NotFoundException();
+        }
+        return  $[aJdlEntity.name.toLowerFirst()/];
+    }
+	
+	/**
+	 * @param [aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]
+	 * @return [aJdlEntity.name/]
+	 */
+	public function save([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/] {
+        try {
+            
+            $this->em->persist($[aJdlEntity.name.toLowerFirst()/]);
+            $this->em->flush();
+            return $[aJdlEntity.name.toLowerFirst()/];
+        }
+        catch (Exception $e)
+        {
+       
+            throw new PersistenceException($e->getMessage());
+        }
+	}
+	
+	/**
+	 *
+	 * @param [aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]
+	 * @return [aJdlEntity.name/]
+	 */
+	public function update([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/] {
+        try {
+            
+             $this->em->persist($[aJdlEntity.name.toLowerFirst()/]);
+             $this->em->flush();
+             return $[aJdlEntity.name.toLowerFirst()/];
+         }
+         catch (Exception $e)
+         {
+             $message = "Error guardando $[aJdlEntity.name.toLowerFirst()/]:". $[aJdlEntity.name.toLowerFirst()/]->getId();
+             throw new PersistenceException($message);
+         }
+       
+	}
+	
+	/**
+	 *
+	 * @param int $[aJdlEntity.name.toLowerFirst()/]Id
+	 * @return bool
+	 */
+	public function delete(int $[aJdlEntity.name.toLowerFirst()/]Id): bool {
+
+        try {
+            $entity = $this->em->getPartialReference("[aJdlEntity.name/]", $[aJdlEntity.name.toLowerFirst()/]Id);
+            $this->em-> remove($entity);
+            $this->em->flush();
+            return true;
+        }
+        catch (Exception $e)
+        {
+            $message = "Error borrando $[aJdlEntity.name.toLowerFirst()/]:". $[aJdlEntity.name.toLowerFirst()/]Id;
+            throw new PersistenceException($message);
+        }
+	}
+	
+}
+
+[/file]
+[/template]
+
+[query public getFileNameRepositoryImpl(name : String) : String =
+	'src\\Interlemd\\Infrastructure\\Persistence\\Mysql\\'+name.concat('Impl.php')
+	/]
+
+
+
+

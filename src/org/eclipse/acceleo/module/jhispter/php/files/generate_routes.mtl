@@ -1,0 +1,47 @@
+[comment encoding = UTF-8 /]
+[module generate_routes('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+[import org::eclipse::acceleo::module::jhispter::php::services::generateUtils]
+
+[template public generateEntityRoutes(aJdlEntityList : Sequence(JdlEntity))]
+[file (''.getFileNameRoutes(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+use Slim\App;
+use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+//[protected('uses')] 
+[for (aJdlEntity : JdlEntity | aJdlEntityList)]
+[if (aJdlEntity.isClassValid())] 
+use Interlemd\Application\Actions\[aJdlEntity.name/]\List[aJdlEntity.name/]Action;
+use Interlemd\Application\Actions\[aJdlEntity.name/]\View[aJdlEntity.name/]Action;
+use Interlemd\Application\Actions\[aJdlEntity.name/]\Create[aJdlEntity.name/]Action;
+use Interlemd\Application\Actions\[aJdlEntity.name/]\Update[aJdlEntity.name/]Action;
+use Interlemd\Application\Actions\[aJdlEntity.name/]\Delete[aJdlEntity.name/]Action;
+[/if]
+ [/for]
+
+//[/protected]
+return function (App $app) {
+//[protected('routes')] 
+[for (aJdlEntity : JdlEntity | aJdlEntityList)]
+[if (aJdlEntity.isClassValid())] 
+$app->group('/api/$[aJdlEntity.name.toLower()/]s', function (Group $group) {
+        $group->get('', List[aJdlEntity.name/]sAction::class);
+        $group->get('/{id}', View[aJdlEntity.name/]Action::class);
+ 		$group->post('', Create[aJdlEntity.name/]Action::class);
+		$group->put('', Update[aJdlEntity.name/]Action::class);
+		$group->delete('/{id}', Delete[aJdlEntity.name/]Action::class);
+    });
+[/if]
+ [/for]    
+//[/protected]
+};
+[/file]
+[/template]
+
+[query public getFileNameRoutes(name : String) : String =
+	'app\\generatedRoutes.php'
+	/]
+

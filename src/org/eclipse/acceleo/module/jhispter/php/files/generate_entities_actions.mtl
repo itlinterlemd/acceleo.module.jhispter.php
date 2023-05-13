@@ -1,0 +1,197 @@
+[comment encoding = UTF-8 /]
+[module generate_entities_actions('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+
+[template public generateEntityActions(aJdlEntity : JdlEntity)]
+[file (aJdlEntity.name.getFileNameAction(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Application\Actions\[aJdlEntity.name/];
+
+use Interlemd\Application\Actions\Action;
+use Interlemd\Repositories\[aJdlEntity.name/]\[aJdlEntity.name/]Repository;
+use Psr\Log\LoggerInterface;
+
+abstract class [aJdlEntity.name/]Action extends Action
+{
+    protected [aJdlEntity.name/]Repository $[aJdlEntity.name.toLowerFirst()/]Repository;
+
+    public function __construct(LoggerInterface $logger, [aJdlEntity.name/]Repository $[aJdlEntity.name.toLowerFirst()/]Repository)
+    {
+        parent::__construct($logger);
+        $this->[aJdlEntity.name.toLowerFirst()/]Repository = $[aJdlEntity.name.toLowerFirst()/]Repository;
+    }
+}
+[/file]
+[file (aJdlEntity.name.getFileNameListAction(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Application\Actions\[aJdlEntity.name/];
+
+use Psr\Http\Message\ResponseInterface as Response;
+
+class List[aJdlEntity.name/]sAction extends [aJdlEntity.name/]Action
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function action(): Response
+    {
+        $[aJdlEntity.name.toLowerFirst()/]s = $this->[aJdlEntity.name.toLowerFirst()/]Repository->findAll();
+
+        $this->logger->info("[aJdlEntity.name.toLowerFirst()/]s list was viewed.");
+
+        return $this->respondWithData($[aJdlEntity.name.toLowerFirst()/]s);
+    }
+}
+[/file]
+[file (aJdlEntity.name.getFileNameViewAction(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Application\Actions\[aJdlEntity.name/];
+
+use Psr\Http\Message\ResponseInterface as Response;
+
+class View[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function action(): Response
+    {
+        $[aJdlEntity.name.toLowerFirst()/]Id = (int) $this->resolveArg('id');
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->find[aJdlEntity.name/]OfId($[aJdlEntity.name.toLowerFirst()/]Id);
+
+        $this->logger->info("[aJdlEntity.name/] of id `${[aJdlEntity.name.toLowerFirst()/]Id}` was viewed.");
+
+        return $this->respondWithData($[aJdlEntity.name.toLowerFirst()/]);
+    }
+}
+
+[/file]
+[file (aJdlEntity.name.getFileNameCreateAction(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Application\Actions\[aJdlEntity.name/];
+
+use Psr\Http\Message\ResponseInterface as Response;
+
+class Create[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function action(): Response
+    {
+        $body = $this->getFormData();
+        //validations
+        if([aJdlEntity.getValidationsListAction()/]
+        ){
+            return $this->respondWithMessage(ErrorConstants::HTTP_400_ERROR,ErrorConstants::ERR_VALIDATION,"Error registrando [aJdlEntity.name/].",
+            "register.messages.error.fail", $entityName="[aJdlEntity.name/]");
+        }
+
+        $[aJdlEntity.name.toLowerFirst()/]_json = (object) $body;
+        $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/](null,
+        [aJdlEntity.getConstructorArgsAction()/] 
+        );
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->save($[aJdlEntity.name.toLowerFirst()/]);
+        $data['[\'message\']'/]  = "[aJdlEntity.name/] creado correctamente.";
+        return $this->respondWithData($data);
+    }
+}
+[/file]
+
+[file (aJdlEntity.name.getFileNameUpdateAction(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Application\Actions\[aJdlEntity.name/];
+
+use Psr\Http\Message\ResponseInterface as Response;
+
+class Update[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function action(): Response
+    {
+        $body = $this->getFormData();
+        //validations
+        if([aJdlEntity.getValidationsListAction()/]
+        ){
+            return $this->respondWithMessage(ErrorConstants::HTTP_400_ERROR,ErrorConstants::ERR_VALIDATION,"Error registrando [aJdlEntity.name/].",
+            "register.messages.error.fail", $entityName="[aJdlEntity.name/]");
+        }
+
+        $[aJdlEntity.name.toLowerFirst()/]_json = (object) $body;
+        $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]_json->id,
+        [aJdlEntity.getConstructorArgsAction()/]
+        );
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->update($[aJdlEntity.name.toLowerFirst()/]);
+        $data['[\'message\']'/] = "[aJdlEntity.name/] actualizado correctamente.";
+        return $this->respondWithData($data);
+    }
+}
+[/file]
+[file (aJdlEntity.name.getFileNameDeleteAction(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Application\Actions\[aJdlEntity.name/];
+
+use Psr\Http\Message\ResponseInterface as Response;
+
+class Delete[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function action(): Response
+    {
+        $[aJdlEntity.name.toLowerFirst()/]Id = (int) $this->resolveArg('id');
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->delete($[aJdlEntity.name.toLowerFirst()/]Id);
+        $data['[\'message\']'/]  = "[aJdlEntity.name/] eliminado correctamente.";
+        return $this->respondWithData($data);
+    }
+}
+[/file]
+[/template]
+
+[query public getFileNameAction(name : String) : String =
+	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\'+name.concat('Action.php')
+	/]
+
+[query public getFileNameListAction(name : String) : String =
+	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\List'+name.concat('Action.php')
+	/]
+
+[query public getFileNameViewAction(name : String) : String =
+	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\View'+name.concat('Action.php')
+	/]
+
+[query public getFileNameCreateAction(name : String) : String =
+	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\Create'+name.concat('Action.php')
+	/]
+[query public getFileNameUpdateAction(name : String) : String =
+	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\Update'+name.concat('Action.php')
+	/]
+[query public getFileNameDeleteAction(name : String) : String =
+	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\Delete'+name.concat('Action.php')
+	/]
+
+
+
+
+

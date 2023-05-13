@@ -1,0 +1,61 @@
+[comment encoding = UTF-8 /]
+[module generate_entities_repository_interface('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+
+[template public generateEntityRepositoryInterface(aJdlEntity : JdlEntity)]
+[file (aJdlEntity.name.getFileNameRepositoryInterface(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+namespace Interlemd\Repositories\[aJdlEntity.name/];
+use Interlemd\Domain\Entities\[aJdlEntity.name/];
+use Interlemd\Domain\Exceptions\PersistenceException;
+use Interlemd\Domain\Exceptions\EntityNotFoundException;
+
+interface [aJdlEntity.name/]Repository
+{
+    /**
+     * @return [aJdlEntity.name/]['[]'/]
+     */
+    public function findAll(): array;
+
+    /**
+     * @param int $id
+     * @return [aJdlEntity.name/]
+     * @throws EntityNotFoundException
+     */
+    public function find[aJdlEntity.name/]OfId(int $id): [aJdlEntity.name/];    
+    /**
+     * @param [aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]
+     * @return [aJdlEntity.name/]
+     * @throws PersistenceException
+     */
+    public function save([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/];
+
+    /**
+     * @param [aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]
+     * @return [aJdlEntity.name/]
+     * @throws PersistenceException
+     */
+    public function update([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/];
+
+     /**
+     * @param int $[aJdlEntity.name.toLowerFirst()/]Id
+     * @return bool
+     * @throws PersistenceException
+     */
+    public function delete(int $[aJdlEntity.name.toLowerFirst()/]Id): bool;
+
+}
+
+[/file]
+[/template]
+
+[query public getFileNameRepositoryInterface(name : String) : String =
+	'src\\Repositories\\'+ name.toUpperFirst()+'\\'+name.concat('Repository.php')
+	/]
+
+
+
+

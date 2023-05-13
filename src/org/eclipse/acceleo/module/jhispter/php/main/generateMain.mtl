@@ -1,0 +1,32 @@
+[comment encoding = UTF-8 /]
+[module generateMain('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::generateUtils]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_entities]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_entities_repository_interface]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_entities_repository_impl]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_entities_actions]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_routes]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_enums]
+
+
+[template public generateMainJdlEntity(aJdlEntity : JdlEntity)]
+[comment @main/]
+[if (aJdlEntity.isClassValid())] 
+[aJdlEntity.generateEntity()/]
+[aJdlEntity.generateEntityRepositoryInterface()/] 
+[aJdlEntity.generateEntityRepositoryImpl()/]
+[aJdlEntity.generateEntityActions()/]
+[/if]
+
+	
+[/template]
+
+[template public generateMainJdlFeature(aJdlFeature : JdlFeature)]
+[comment @main/]
+[generateEntityRoutes(aJdlFeature.siblings(JdlEntity))/]  
+[/template]
+
+[template public generateMainEnums(jdlEnum : JdlEnum)]
+[comment @main/]
+[jdlEnum.generateEnum()/] 
+[/template]
