@@ -8,7 +8,9 @@ import org.eclipse.emf.common.util.EList;
 
 import io.github.jhipster.jdl.jdl.JdlEntity;
 import io.github.jhipster.jdl.jdl.JdlEntityField;
+import io.github.jhipster.jdl.jdl.JdlEnum;
 import io.github.jhipster.jdl.jdl.JdlEnumFieldType;
+import io.github.jhipster.jdl.jdl.JdlEnumValue;
 import io.github.jhipster.jdl.jdl.JdlBooleanFieldType;
 import io.github.jhipster.jdl.jdl.JdlDateFieldType;
 import io.github.jhipster.jdl.jdl.JdlFieldType;
@@ -161,5 +163,17 @@ public class UtilsServices {
         // return the result
         return result;
     }
+	
+	public String getValuesFromEnum(JdlEnum jdlEnum) {
+		List<String> values= new ArrayList<String>();
+		EList<JdlEnumValue> listJdlEnumValue = jdlEnum.getValues();
+		for (Iterator iterator = listJdlEnumValue.iterator(); iterator.hasNext();) {
+			JdlEnumValue jdlEnumValue = (JdlEnumValue) iterator.next();
+			String enumValue ="'"+jdlEnumValue.getValue()+"'";
+			values.add(enumValue);			
+		}
+		
+		return String.join(",", values);
+	}
 
 }

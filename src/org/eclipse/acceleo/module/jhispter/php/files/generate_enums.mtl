@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Interlemd\Domain\Entities\Enums;
+namespace Interlemd\Domain\Enums;
 
 enum [jdlEnum.name/]
 {
@@ -20,7 +20,7 @@ case [aJdlEnumValue.value/];
 [/file]
 [/template]
 [query public getEnumFileName(name : String) : String =
-	'src\\Domain\\Entities\\Enums\\'+ name.concat('.php')
+	'src\\Domain\\Enums\\'+ name.concat('.php')
 	/]
 
 

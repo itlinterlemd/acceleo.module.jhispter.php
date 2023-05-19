@@ -44,7 +44,7 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
         $[aJdlEntity.name.toLowerFirst()/]  =$this->em-> getRepository([aJdlEntity.name/]::class)
         ->findOneBy(array('id' => $id));
         if (!isset($[aJdlEntity.name.toLowerFirst()/])) {
-            throw new [aJdlEntity.name/]NotFoundException();
+            throw new EntityNotFoundException();
         }
         return  $[aJdlEntity.name.toLowerFirst()/];
     }
@@ -81,7 +81,7 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
          }
          catch (Exception $e)
          {
-             $message = "Error guardando $[aJdlEntity.name.toLowerFirst()/]:". $[aJdlEntity.name.toLowerFirst()/]->getId();
+             $message = "Error guardando [aJdlEntity.name.toLowerFirst()/]:". $[aJdlEntity.name.toLowerFirst()/]->getId();
              throw new PersistenceException($message);
          }
        
@@ -102,7 +102,7 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
         }
         catch (Exception $e)
         {
-            $message = "Error borrando $[aJdlEntity.name.toLowerFirst()/]:". $[aJdlEntity.name.toLowerFirst()/]Id;
+            $message = "Error borrando [aJdlEntity.name.toLowerFirst()/]:". $[aJdlEntity.name.toLowerFirst()/]Id;
             throw new PersistenceException($message);
         }
 	}
@@ -113,7 +113,7 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
 [/template]
 
 [query public getFileNameRepositoryImpl(name : String) : String =
-	'src\\Interlemd\\Infrastructure\\Persistence\\Mysql\\'+name.concat('Impl.php')
+	'src\\Infrastructure\\Persistence\\Mysql\\'+name.concat('RepositoryImpl.php')
 	/]
 
 

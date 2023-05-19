@@ -1,6 +1,7 @@
 [comment encoding = UTF-8 /]
 [module generate_entities('http://www.github.io/jhipster/jdl/JDL')]
 [import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+[comment jdlEntityField.oclAsType(JdlEnumFieldType).element.name /]
 
 [template public generateEntity(aJdlEntity : JdlEntity)]
 [file (aJdlEntity.name.getFileName(), false, 'UTF-8')]
@@ -18,17 +19,16 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
-use Interlemd\Domain\Entities\Enums;
 
 ['#[Entity, Table(name: \''.concat(camelToSnake(aJdlEntity.name)).concat('\')]')/]
 class [aJdlEntity.name/] implements JsonSerializable
 {
-['#[Id, Column(type: \'int\', unique: true, nullable: false, length:50)]'/]
+['#[Id, Column(type: \'integer\', unique: true, nullable: false, length:50)]'/]
 private int $id;
 
 [for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
 ['#[Column(name:\''.concat(aEntityField.name.camelToSnake()).concat('\'')/][aEntityField.type.getValueForEnum().concat(')]')/]
-private [aEntityField.eAllContents().toString().hasValidator()/][aEntityField.type.getEntityFieldTypeName()/] [aEntityField.name/];
+private [aEntityField.eAllContents().toString().hasValidator()/][aEntityField.type.getEntityFieldTypeName()/] $[aEntityField.name/];
 [/for]
 public function __construct(?int $id, [aJdlEntity.getConstructorArgs()/])
     {
@@ -48,13 +48,19 @@ public function jsonSerialize(): array
 [/for]
         [']'/];
     }
+
+public function getId()
+        {
+                return $this->id;
+        }
+
 [for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
 public function get[aEntityField.name.toUpperFirst()/]()
         {
                 return $this->[aEntityField.name/];
         }
 
-public function set[aEntityField.name.toUpperFirst()/]([aEntityField.name/])
+public function set[aEntityField.name.toUpperFirst()/]($[aEntityField.name/])
     {
         $this->[aEntityField.name/] = $[aEntityField.name/];
         return $this;
@@ -69,7 +75,7 @@ public function set[aEntityField.name.toUpperFirst()/]([aEntityField.name/])
 	if jdlEntityField.oclIsKindOf(JdlStringFieldType) then
 			'string'
 		else if jdlEntityField.oclIsKindOf(JdlEnumFieldType)  then
-			jdlEntityField.oclAsType(JdlEnumFieldType).element.name
+			'string'
 			else if jdlEntityField.oclIsKindOf(JdlBooleanFieldType)  then
 				'bool'
 			else if jdlEntityField.oclIsKindOf(JdlDateFieldType)  then
@@ -111,7 +117,7 @@ public function set[aEntityField.name.toUpperFirst()/]([aEntityField.name/])
 
 [query public getValueForEnum(jdlEntityField : JdlFieldType) : String =
 if jdlEntityField.isEnumClass() then
-		', enumType:'+ jdlEntityField.oclAsType(JdlEnumFieldType).element.name+'::class'
+        ', type:"string", columnDefinition:"ENUM('+ jdlEntityField.oclAsType(JdlEnumFieldType).element.getValuesFromEnum()+')"'
 	else
 		''
 	endif

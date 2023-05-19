@@ -37,3 +37,7 @@
 	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'camelToSnake(java.lang.String)', Sequence{arg0})
 /]
 
+[query public getValuesFromEnum(arg0 : JdlEnum) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getValuesFromEnum(io.github.jhipster.jdl.jdl.JdlEnum)', Sequence{arg0})
+/]
+

@@ -34,7 +34,7 @@ namespace Interlemd\Application\Actions\[aJdlEntity.name/];
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-class List[aJdlEntity.name/]sAction extends [aJdlEntity.name/]Action
+class List[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
 {
     /**
      * {@inheritdoc}
@@ -170,25 +170,25 @@ class Delete[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
 [/template]
 
 [query public getFileNameAction(name : String) : String =
-	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\'+name.concat('Action.php')
+	'src\\Application\\Actions\\'+name.toUpperFirst()+'\\'+name.concat('Action.php')
 	/]
 
 [query public getFileNameListAction(name : String) : String =
-	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\List'+name.concat('Action.php')
+	'src\\Application\\Actions\\'+name.toUpperFirst()+'\\List'+name.concat('Action.php')
 	/]
 
 [query public getFileNameViewAction(name : String) : String =
-	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\View'+name.concat('Action.php')
+	'src\\Application\\Actions\\'+name.toUpperFirst()+'\\View'+name.concat('Action.php')
 	/]
 
 [query public getFileNameCreateAction(name : String) : String =
-	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\Create'+name.concat('Action.php')
+	'src\\Application\\Actions\\'+name.toUpperFirst()+'\\Create'+name.concat('Action.php')
 	/]
 [query public getFileNameUpdateAction(name : String) : String =
-	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\Update'+name.concat('Action.php')
+	'src\\Application\\Actions\\'+name.toUpperFirst()+'\\Update'+name.concat('Action.php')
 	/]
 [query public getFileNameDeleteAction(name : String) : String =
-	'src\\Interlemd\\Application\\Actions\\'+name.toUpperFirst()+'\\Delete'+name.concat('Action.php')
+	'src\\Application\\Actions\\'+name.toUpperFirst()+'\\Delete'+name.concat('Action.php')
 	/]
 
 
