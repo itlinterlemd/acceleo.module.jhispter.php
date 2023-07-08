@@ -1,23 +1,25 @@
 [comment encoding = UTF-8 /]
-[module generate_entities_repository_impl('http://www.github.io/jhipster/jdl/JDL')]
+[module generate_entities_service_impl('http://www.github.io/jhipster/jdl/JDL')]
 [import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
 
-[template public generateEntityRepositoryImpl(aJdlEntity : JdlEntity)]
-[file (aJdlEntity.name.getFileNameRepositoryImpl(), false, 'UTF-8')]
+[template public generateEntityServiceImpl(aJdlEntity : JdlEntity)]
+[file (aJdlEntity.name.getFileNameServiceImpl(), false, 'UTF-8')]
 <?php
 
 declare(strict_types=1);
 
-namespace Interlemd\Infrastructure\Persistence\Mysql;
+namespace Interlemd\Services\[aJdlEntity.name/];
 
 //use Interlemd\Domain\Entities;
 use Interlemd\Domain\Entities\[aJdlEntity.name/];
+use Interlemd\Application\Exceptions\ValidationException;
 use Interlemd\Domain\Exceptions\PersistenceException;
 use Interlemd\Domain\Exceptions\EntityNotFoundException;
-use Interlemd\Repositories\[aJdlEntity.name/]\[aJdlEntity.name/]Repository;
+use Interlemd\Services\[aJdlEntity.name/]\[aJdlEntity.name/]Service;
+use Interlemd\Services\GeneralServiceAbstract;
 use Doctrine\ORM\EntityManager;
 use Exception;
-class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
+class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [aJdlEntity.name/]Service
 {
     /**
      * @var EntityManager
@@ -32,7 +34,7 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
 
     public function findAll(): array
     {
-        return  $this->em-> getRepository([aJdlEntity.name/]::class)
+        return  $this->em-> getService([aJdlEntity.name/]::class)
         ->findAll();//array_values($this->[aJdlEntity.name.toLowerFirst()/]s);
     }
 
@@ -41,7 +43,7 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
      */
     public function find[aJdlEntity.name/]OfId(int $id): [aJdlEntity.name/]
     {
-        $[aJdlEntity.name.toLowerFirst()/]  =$this->em-> getRepository([aJdlEntity.name/]::class)
+        $[aJdlEntity.name.toLowerFirst()/]  =$this->em-> getService([aJdlEntity.name/]::class)
         ->findOneBy(array('id' => $id));
         if (!isset($[aJdlEntity.name.toLowerFirst()/])) {
             throw new EntityNotFoundException();
@@ -59,6 +61,29 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
             $this->em->persist($[aJdlEntity.name.toLowerFirst()/]);
             $this->em->flush();
             return $[aJdlEntity.name.toLowerFirst()/];
+        }
+        catch (Exception $e)
+        {
+       
+            throw new PersistenceException($e->getMessage());
+        }
+	}
+
+
+ /**
+     * @param object $[aJdlEntity.name.toLowerFirst()/]JSON
+     * @return @return [aJdlEntity.name/]
+     * @throws PersistenceException
+     */
+    public function saveFromJson(object $[aJdlEntity.name.toLowerFirst()/]JSON): [aJdlEntity.name/] {
+        try {
+
+            //TODO: make validations
+    
+            $[aJdlEntity.name.toLowerFirst()/] = = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]JSON->id,
+        [aJdlEntity.getConstructorArgsAction()/]
+        );
+            return $this->save($[aJdlEntity.name.toLowerFirst()/]);
         }
         catch (Exception $e)
         {
@@ -86,6 +111,35 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
          }
        
 	}
+
+ /**
+     * @param object $[aJdlEntity.name.toLowerFirst()/]JSON
+     * @return [aJdlEntity.name/]
+     * @throws PersistenceException
+     */
+    public function updateFromJson(object $[aJdlEntity.name.toLowerFirst()/]JSON, int $[aJdlEntity.name.toLowerFirst()/]Id): [aJdlEntity.name/] {
+        try {
+
+            $[aJdlEntity.name.toLowerFirst()/]Update = $this->find[aJdlEntity.name/]OfId($[aJdlEntity.name.toLowerFirst()/]Id);
+	           
+				if (!isset($[aJdlEntity.name.toLowerFirst()/]Update)) {
+				      throw new ValidationException("register.messages.error.$[aJdlEntity.name.toLowerFirst()/]notexist", "$[aJdlEntity.name/] no existe:".$[aJdlEntity.name.toLowerFirst()/]Id );
+				            }
+			//TODO: make validations
+			[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
+			$[aJdlEntity.name.toLowerFirst()/]Update->[aEntityField.name/]=$[aJdlEntity.name.toLowerFirst()/]JSON->[aEntityField.name/];
+			[/for]
+
+            return $this->update($[aJdlEntity.name.toLowerFirst()/]Update);
+        }
+        catch (Exception $e)
+        {
+       
+            throw new PersistenceException($e->getMessage());
+        }
+	}
+
+
 	
 	/**
 	 *
@@ -112,8 +166,8 @@ class [aJdlEntity.name/]RepositoryImpl  implements [aJdlEntity.name/]Repository
 [/file]
 [/template]
 
-[query public getFileNameRepositoryImpl(name : String) : String =
-	'src\\Infrastructure\\Persistence\\Mysql\\'+name.concat('RepositoryImpl.php')
+[query public getFileNameServiceImpl(name : String) : String =
+	'src\\Services\\'+ name.toUpperFirst()+'\\'+name.concat('ServiceImpl.php')
 	/]
 
 

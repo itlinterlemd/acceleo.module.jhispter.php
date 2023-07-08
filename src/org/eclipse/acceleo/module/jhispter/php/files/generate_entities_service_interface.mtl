@@ -1,19 +1,20 @@
 [comment encoding = UTF-8 /]
-[module generate_entities_repository_interface('http://www.github.io/jhipster/jdl/JDL')]
+[module generate_entities_service_interface('http://www.github.io/jhipster/jdl/JDL')]
 [import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
 
-[template public generateEntityRepositoryInterface(aJdlEntity : JdlEntity)]
-[file (aJdlEntity.name.getFileNameRepositoryInterface(), false, 'UTF-8')]
+[template public generateEntityServiceInterface(aJdlEntity : JdlEntity)]
+[file (aJdlEntity.name.getFileNameServiceInterface(), false, 'UTF-8')]
 <?php
 
 declare(strict_types=1);
 
-namespace Interlemd\Repositories\[aJdlEntity.name/];
+namespace Interlemd\Services\[aJdlEntity.name/];
 use Interlemd\Domain\Entities\[aJdlEntity.name/];
 use Interlemd\Domain\Exceptions\PersistenceException;
 use Interlemd\Domain\Exceptions\EntityNotFoundException;
+use Interlemd\Services\GeneralService;
 
-interface [aJdlEntity.name/]Repository
+interface [aJdlEntity.name/]Service extends GeneralService
 {
     /**
      * @return [aJdlEntity.name/]['[]'/]
@@ -47,13 +48,27 @@ interface [aJdlEntity.name/]Repository
      */
     public function delete(int $[aJdlEntity.name.toLowerFirst()/]Id): bool;
 
+ 	/**
+     * @param object $[aJdlEntity.name.toLowerFirst()/]JSON
+     * @return [aJdlEntity.name/]
+     * @throws PersistenceException
+     */
+    public function saveFromJson(object $[aJdlEntity.name.toLowerFirst()/]JSON): [aJdlEntity.name/];
+    
+    /**
+     * @param object $[aJdlEntity.name.toLowerFirst()/]JSON
+     * @return [aJdlEntity.name/]
+     * @throws PersistenceException
+     */
+    public function updateFromJson(object $[aJdlEntity.name.toLowerFirst()/]JSON, int $[aJdlEntity.name.toLowerFirst()/]Id): [aJdlEntity.name/];
+
 }
 
 [/file]
 [/template]
 
-[query public getFileNameRepositoryInterface(name : String) : String =
-	'src\\Repositories\\'+ name.toUpperFirst()+'\\'+name.concat('Repository.php')
+[query public getFileNameServiceInterface(name : String) : String =
+	'src\\Services\\'+ name.toUpperFirst()+'\\'+name.concat('Service.php')
 	/]
 
 

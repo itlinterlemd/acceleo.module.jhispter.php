@@ -36,7 +36,7 @@ public class UtilsServices {
 		EList<JdlEntityField> listJdlEntityField = jdlEntity.getFieldDefinition().getFields();
 		for (Iterator iterator = listJdlEntityField.iterator(); iterator.hasNext();) {
 			JdlEntityField jdlEntityField = (JdlEntityField) iterator.next();
-			String typeAndName ="$"+toLowerFirst(jdlEntity.getName())+"_json->"+toLowerFirst(jdlEntityField.getName());
+			String typeAndName ="$"+toLowerFirst(jdlEntity.getName())+"JSON->"+toLowerFirst(jdlEntityField.getName());
 			names.add(typeAndName);			
 		}
 		
@@ -93,7 +93,7 @@ public class UtilsServices {
 			return "";		
 	}
 	
-	public String getEntityFieldTypeName(JdlFieldType jdlEntityField) {
+	public String getEntityFieldTypeName(JdlFieldType jdlEntityField) { 
 			if (jdlEntityField instanceof JdlStringFieldType) { 
 					return "string";
 			}
@@ -174,6 +174,45 @@ public class UtilsServices {
 		}
 		
 		return String.join(",", values);
+	}
+	
+	public String getEntityPhpAnnotation(String element) {
+		return "/**\r\n"
+				+ " * @Entity\r\n"
+				+ " * @Table(name=\""
+				+ element
+				+ "\")\r\n"
+				+ " */";
+}
+	public String getEntityPhpAnnotationForV8(String element) {
+		return "#[Entity, Table(name: \'".concat(element).concat("\')]");
+}
+	
+	public String getEntityIdPhpAnnotation(String element) {
+		return "/**\r\n"
+				+ "* @Id\r\n"
+				+ "* @Column(name = \""+element+"\", type=\"integer\")\r\n"
+				+ "* @GeneratedValue(strategy=\"IDENTITY\")\r\n"
+				+ "*/";
+}
+	
+	public String getEntityIdPhpAnnotationForV8(String element) {
+		return "#[Id, Column(name:\'"+element+"\',type: \'integer\', unique: true, nullable: false, length:50)]'";
+}
+	
+	public String getValueForEnum2(JdlFieldType jdlEntityField) {
+			if(jdlEntityField instanceof JdlEnumFieldType) {
+				io.github.jhipster.jdl.jdl.JdlEnumFieldType jdlEntityField_var = ((io.github.jhipster.jdl.jdl.JdlEnumFieldType) jdlEntityField);
+			        return ", type:\"string\", columnDefinition:\"ENUM('"+ getValuesFromEnum(jdlEntityField_var.getElement())+"')\"";
+			}else {
+				return "";
+				
+			}
+	}
+	
+	public String getParamsFromJava(String name, String type) {
+		
+		return name + ","+ type;
 	}
 
 }

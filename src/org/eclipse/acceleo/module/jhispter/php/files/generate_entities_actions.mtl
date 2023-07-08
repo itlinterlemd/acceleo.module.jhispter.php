@@ -11,17 +11,17 @@ declare(strict_types=1);
 namespace Interlemd\Application\Actions\[aJdlEntity.name/];
 
 use Interlemd\Application\Actions\Action;
-use Interlemd\Repositories\[aJdlEntity.name/]\[aJdlEntity.name/]Repository;
+use Interlemd\Services\[aJdlEntity.name/]\[aJdlEntity.name/]Service;
 use Psr\Log\LoggerInterface;
 
 abstract class [aJdlEntity.name/]Action extends Action
 {
-    protected [aJdlEntity.name/]Repository $[aJdlEntity.name.toLowerFirst()/]Repository;
+    protected [aJdlEntity.name/]Service $[aJdlEntity.name.toLowerFirst()/]Service;
 
-    public function __construct(LoggerInterface $logger, [aJdlEntity.name/]Repository $[aJdlEntity.name.toLowerFirst()/]Repository)
+    public function __construct(LoggerInterface $logger, [aJdlEntity.name/]Service $[aJdlEntity.name.toLowerFirst()/]Service)
     {
         parent::__construct($logger);
-        $this->[aJdlEntity.name.toLowerFirst()/]Repository = $[aJdlEntity.name.toLowerFirst()/]Repository;
+        $this->[aJdlEntity.name.toLowerFirst()/]Service = $[aJdlEntity.name.toLowerFirst()/]Service;
     }
 }
 [/file]
@@ -41,7 +41,7 @@ class List[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
      */
     protected function action(): Response
     {
-        $[aJdlEntity.name.toLowerFirst()/]s = $this->[aJdlEntity.name.toLowerFirst()/]Repository->findAll();
+        $[aJdlEntity.name.toLowerFirst()/]s = $this->[aJdlEntity.name.toLowerFirst()/]Service->findAll();
 
         $this->logger->info("[aJdlEntity.name.toLowerFirst()/]s list was viewed.");
 
@@ -66,7 +66,7 @@ class View[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
     protected function action(): Response
     {
         $[aJdlEntity.name.toLowerFirst()/]Id = (int) $this->resolveArg('id');
-        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->find[aJdlEntity.name/]OfId($[aJdlEntity.name.toLowerFirst()/]Id);
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Service->find[aJdlEntity.name/]OfId($[aJdlEntity.name.toLowerFirst()/]Id);
 
         $this->logger->info("[aJdlEntity.name/] of id `${[aJdlEntity.name.toLowerFirst()/]Id}` was viewed.");
 
@@ -103,7 +103,7 @@ class Create[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
         $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/](null,
         [aJdlEntity.getConstructorArgsAction()/] 
         );
-        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->save($[aJdlEntity.name.toLowerFirst()/]);
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Service->save($[aJdlEntity.name.toLowerFirst()/]);
         $data['[\'message\']'/]  = "[aJdlEntity.name/] creado correctamente.";
         return $this->respondWithData($data);
     }
@@ -138,7 +138,7 @@ class Update[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
         $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]_json->id,
         [aJdlEntity.getConstructorArgsAction()/]
         );
-        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->update($[aJdlEntity.name.toLowerFirst()/]);
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Service->update($[aJdlEntity.name.toLowerFirst()/]);
         $data['[\'message\']'/] = "[aJdlEntity.name/] actualizado correctamente.";
         return $this->respondWithData($data);
     }
@@ -161,7 +161,7 @@ class Delete[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
     protected function action(): Response
     {
         $[aJdlEntity.name.toLowerFirst()/]Id = (int) $this->resolveArg('id');
-        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Repository->delete($[aJdlEntity.name.toLowerFirst()/]Id);
+        $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Service->delete($[aJdlEntity.name.toLowerFirst()/]Id);
         $data['[\'message\']'/]  = "[aJdlEntity.name/] eliminado correctamente.";
         return $this->respondWithData($data);
     }

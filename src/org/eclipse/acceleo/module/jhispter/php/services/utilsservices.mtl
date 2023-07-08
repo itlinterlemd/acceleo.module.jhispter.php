@@ -41,3 +41,27 @@
 	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getValuesFromEnum(io.github.jhipster.jdl.jdl.JdlEnum)', Sequence{arg0})
 /]
 
+[query public getEntityPhpAnnotation(arg0 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getEntityPhpAnnotation(java.lang.String)', Sequence{arg0})
+/]
+
+[query public getEntityPhpAnnotationForV8(arg0 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getEntityPhpAnnotationForV8(java.lang.String)', Sequence{arg0})
+/]
+
+[query public getEntityIdPhpAnnotation(arg0 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getEntityIdPhpAnnotation(java.lang.String)', Sequence{arg0})
+/]
+
+[query public getEntityIdPhpAnnotationForV8(arg0 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getEntityIdPhpAnnotationForV8(java.lang.String)', Sequence{arg0})
+/]
+
+[query public getValueForEnum2(arg0 : JdlFieldType) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getValueForEnum2(io.github.jhipster.jdl.jdl.JdlFieldType)', Sequence{arg0})
+/]
+
+[query public getParamsFromJava(arg0 : String, arg1 : String) : String
+	= invoke('org.eclipse.acceleo.module.jhispter.php.services.UtilsServices', 'getParamsFromJava(java.lang.String, java.lang.String)', Sequence{arg0, arg1})
+/]
+

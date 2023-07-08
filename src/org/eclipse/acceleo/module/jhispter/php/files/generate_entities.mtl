@@ -20,14 +20,14 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
-['#[Entity, Table(name: \''.concat(camelToSnake(aJdlEntity.name)).concat('\')]')/]
+[aJdlEntity.name.getEntityAnnotation()/]
 class [aJdlEntity.name/] implements JsonSerializable
 {
-['#[Id, Column(type: \'integer\', unique: true, nullable: false, length:50)]'/]
+[''.getIdEntityAnnotation()/]
 private int $id;
 
 [for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
-['#[Column(name:\''.concat(aEntityField.name.camelToSnake()).concat('\'')/][aEntityField.type.getValueForEnum().concat(')]')/]
+[aEntityField.getAnnotationAtt()/]
 private [aEntityField.eAllContents().toString().hasValidator()/][aEntityField.type.getEntityFieldTypeName()/] $[aEntityField.name/];
 [/for]
 public function __construct(?int $id, [aJdlEntity.getConstructorArgs()/])
@@ -38,7 +38,7 @@ public function __construct(?int $id, [aJdlEntity.getConstructorArgs()/])
 [/for]
     }
 
-['#[\\ReturnTypeWillChange]'/]
+[''.getReturnTypeWillChange()/]
 public function jsonSerialize(): array
     {
         return ['['/]
@@ -127,6 +127,49 @@ if jdlEntityField.isEnumClass() then
 [query public isEnumClass(jdlEntityField : JdlFieldType) : Boolean =
 	jdlEntityField.oclIsKindOf(JdlEnumFieldType)
 		/]
+
+[query public isPhpVersion(version : String) : Boolean =
+	version.equalsIgnoreCase('phpv84')
+		/]
+[query public getAnnotationAtt(aEntityField : JdlEntityField) : String =
+		if 'phpv74'.isPhpVersion() then
+		        '#[Column(name:\''.concat(aEntityField.name.camelToSnake()).concat('\'').concat(aEntityField.type.getValueForEnum().concat(')]'))
+			else
+				'/**@Column(name=\"'.concat(aEntityField.name.camelToSnake()).concat('\"').concat(aEntityField.type.getValueForEnum().concat(')**/'))
+			endif
+	    
+		/]
+
+[query public getReturnTypeWillChange(value : String) : String =
+		if 'phpv84'.isPhpVersion() then
+		        '#[\\ReturnTypeWillChange]'
+			else
+				''
+			endif
+	    
+		/]
+
+[query public getEntityAnnotation(name : String) : String =
+		if 'phpv74'.isPhpVersion() then
+		        name.camelToSnake().getEntityPhpAnnotationForV8()
+			else
+				name.camelToSnake().getEntityPhpAnnotation()
+			endif
+	    
+		/]
+
+[query public getIdEntityAnnotation(name : String) : String =
+		if 'phpv74'.isPhpVersion() then
+		        'id'.getEntityIdPhpAnnotationForV8()
+			else
+				'id'.getEntityIdPhpAnnotation()
+			endif
+	    
+		/]
+
+
+
+
 
 
 
