@@ -83,6 +83,8 @@ declare(strict_types=1);
 
 namespace Interlemd\Application\Actions\[aJdlEntity.name/];
 
+use Interlemd\Commons\ErrorConstants;
+use Interlemd\Domain\Entities\[aJdlEntity.name/];
 use Psr\Http\Message\ResponseInterface as Response;
 
 class Create[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
@@ -117,7 +119,8 @@ class Create[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
 declare(strict_types=1);
 
 namespace Interlemd\Application\Actions\[aJdlEntity.name/];
-
+use Interlemd\Commons\ErrorConstants;
+use Interlemd\Domain\Entities\[aJdlEntity.name/];
 use Psr\Http\Message\ResponseInterface as Response;
 
 class Update[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
@@ -135,8 +138,8 @@ class Update[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
             "register.messages.error.fail", $entityName="[aJdlEntity.name/]");
         }
 
-        $[aJdlEntity.name.toLowerFirst()/]_json = (object) $body;
-        $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]_json->id,
+        $[aJdlEntity.name.toLowerFirst()/]JSON = (object) $body;
+        $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]JSON->id,
         [aJdlEntity.getConstructorArgsAction()/]
         );
         $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Service->update($[aJdlEntity.name.toLowerFirst()/]);
