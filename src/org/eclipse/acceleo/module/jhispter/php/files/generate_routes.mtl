@@ -11,7 +11,8 @@ declare(strict_types=1);
 
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
-//[protected('uses')] 
+//[protected('uses')]
+//[/protected]
 [for (aJdlEntity : JdlEntity | aJdlEntityList)]
 [if (aJdlEntity.isClassValid())] 
 use Interlemd\Application\Actions\[aJdlEntity.name/]\List[aJdlEntity.name/]Action;
@@ -22,9 +23,10 @@ use Interlemd\Application\Actions\[aJdlEntity.name/]\Delete[aJdlEntity.name/]Act
 [/if]
  [/for]
 
-//[/protected]
+
 return function (App $app) {
-//[protected('routes')] 
+//[protected('routes')]
+//[/protected] 
 [for (aJdlEntity : JdlEntity | aJdlEntityList)]
 [if (aJdlEntity.isClassValid())] 
 $app->group('/api/[aJdlEntity.name.toLower()/]s', function (Group $group) {
@@ -36,7 +38,6 @@ $app->group('/api/[aJdlEntity.name.toLower()/]s', function (Group $group) {
     });
 [/if]
  [/for]    
-//[/protected]
 };
 [/file]
 [/template]

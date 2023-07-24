@@ -12,9 +12,9 @@ namespace Interlemd\Services\[aJdlEntity.name/];
 use Interlemd\Domain\Entities\[aJdlEntity.name/];
 use Interlemd\Domain\Exceptions\PersistenceException;
 use Interlemd\Domain\Exceptions\EntityNotFoundException;
-use Interlemd\Services\GeneralService;
+use Interlemd\Services\GenericsFiltersService;
 
-interface [aJdlEntity.name/]Service extends GeneralService
+interface [aJdlEntity.name/]Service extends GenericsFiltersService
 {
     /**
      * @return [aJdlEntity.name/]['[]'/]

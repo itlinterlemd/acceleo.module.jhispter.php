@@ -21,20 +21,19 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [aJdlEntity.name/]Service
 {
-    /**
-     * @var EntityManager
-     */
-    private $em;
+    private $entityManager;
+	protected $[aJdlEntity.name.toLowerFirst()/]Repository;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
+		$this->[aJdlEntity.name.toLowerFirst()/]Repository = $entityManager->getRepository([aJdlEntity.name/]::class);
     }
 
 
     public function findAll(): array
     {
-        return  $this->em-> getService([aJdlEntity.name/]::class)
+        return  $this->[aJdlEntity.name.toLowerFirst()/]Repository
         ->findAll();//array_values($this->[aJdlEntity.name.toLowerFirst()/]s);
     }
 
@@ -43,7 +42,7 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
      */
     public function find[aJdlEntity.name/]OfId(int $id): [aJdlEntity.name/]
     {
-        $[aJdlEntity.name.toLowerFirst()/]  =$this->em-> getService([aJdlEntity.name/]::class)
+        $[aJdlEntity.name.toLowerFirst()/]  = $this->[aJdlEntity.name.toLowerFirst()/]Repository
         ->findOneBy(array('id' => $id));
         if (!isset($[aJdlEntity.name.toLowerFirst()/])) {
             throw new EntityNotFoundException();
@@ -58,8 +57,8 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 	public function save([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/] {
         try {
             
-            $this->em->persist($[aJdlEntity.name.toLowerFirst()/]);
-            $this->em->flush();
+            $this->entityManager->persist($[aJdlEntity.name.toLowerFirst()/]);
+            $this->entityManager->flush();
             return $[aJdlEntity.name.toLowerFirst()/];
         }
         catch (Exception $e)
@@ -80,7 +79,7 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 
             //TODO: make validations
     
-            $[aJdlEntity.name.toLowerFirst()/] = = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]JSON->id,
+            $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]JSON->id,
         [aJdlEntity.getConstructorArgsAction()/]
         );
             return $this->save($[aJdlEntity.name.toLowerFirst()/]);
@@ -100,8 +99,8 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 	public function update([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/] {
         try {
             
-             $this->em->persist($[aJdlEntity.name.toLowerFirst()/]);
-             $this->em->flush();
+             $this->entityManager->persist($[aJdlEntity.name.toLowerFirst()/]);
+             $this->entityManager->flush();
              return $[aJdlEntity.name.toLowerFirst()/];
          }
          catch (Exception $e)
@@ -123,7 +122,7 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
             $[aJdlEntity.name.toLowerFirst()/]Update = $this->find[aJdlEntity.name/]OfId($[aJdlEntity.name.toLowerFirst()/]Id);
 	           
 				if (!isset($[aJdlEntity.name.toLowerFirst()/]Update)) {
-				      throw new ValidationException("register.messages.error.$[aJdlEntity.name.toLowerFirst()/]notexist", "$[aJdlEntity.name/] no existe:".$[aJdlEntity.name.toLowerFirst()/]Id );
+				      throw new ValidationException("[aJdlEntity.name.toLowerFirst()/].messages.error.[aJdlEntity.name.toLowerFirst()/]notexist", "[aJdlEntity.name/] no existe:".$[aJdlEntity.name.toLowerFirst()/]Id );
 				            }
 			//TODO: make validations
 			[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
@@ -149,9 +148,9 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 	public function delete(int $[aJdlEntity.name.toLowerFirst()/]Id): bool {
 
         try {
-            $entity = $this->em->getPartialReference("[aJdlEntity.name/]", $[aJdlEntity.name.toLowerFirst()/]Id);
-            $this->em-> remove($entity);
-            $this->em->flush();
+            $entity = $this->entityManager->getPartialReference("[aJdlEntity.name/]", $[aJdlEntity.name.toLowerFirst()/]Id);
+            $this->entityManager-> remove($entity);
+            $this->entityManager->flush();
             return true;
         }
         catch (Exception $e)
@@ -160,6 +159,25 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
             throw new PersistenceException($message);
         }
 	}
+
+    public function findByFilter($filters)
+    {
+        return $this->getAllResultsByFilter($this->entityManager, $this->[aJdlEntity.name.toLowerFirst()/]Repository, $filters);
+    }
+
+    
+    public function findByAttribute($attribute, $value, $operator = '=')
+    {
+        return $this->getAllByAttribute($this->entityManager, $this->[aJdlEntity.name.toLowerFirst()/]Repository, $attribute, $value, $operator);
+    }
+
+    public function findAllByPaginatedFilter($page, $perPage, array $filters)
+    {
+
+    return $this->getAllByPaginatedFilter($this->entityManager, $this->[aJdlEntity.name.toLowerFirst()/]Repository, $page, $perPage, $filters);
+    }
+
+
 	
 }
 

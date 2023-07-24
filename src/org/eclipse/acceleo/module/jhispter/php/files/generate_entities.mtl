@@ -135,7 +135,7 @@ if jdlEntityField.isEnumClass() then
 		if 'phpv74'.isPhpVersion() then
 		        '#[Column(name:\''.concat(aEntityField.name.camelToSnake()).concat('\'').concat(aEntityField.type.getValueForEnum().concat(')]'))
 			else
-				'/**@Column(name=\"'.concat(aEntityField.name.camelToSnake()).concat('\"').concat(aEntityField.type.getValueForEnum().concat(')**/'))
+				'/**'.concat('\n')+'*@Column(name=\"'.concat(aEntityField.name.camelToSnake()).concat('\"').concat(aEntityField.type.getValueForEnum().concat(')\n**/'))
 			endif
 	    
 		/]

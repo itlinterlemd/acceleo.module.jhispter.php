@@ -1,0 +1,43 @@
+[comment encoding = UTF-8 /]
+[module generate_servicess_to_container('http://www.github.io/jhipster/jdl/JDL')]
+[import org::eclipse::acceleo::module::jhispter::php::services::utilsservices]
+[import org::eclipse::acceleo::module::jhispter::php::services::generateUtils]
+
+[template public generateServicesToContainer(aJdlEntityList : Sequence(JdlEntity))]
+[file (''.getFileNameContainerServices(), false, 'UTF-8')]
+<?php
+
+declare(strict_types=1);
+
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+//[protected('usesRepos')]
+//[/protected] 
+[for (aJdlEntity : JdlEntity | aJdlEntityList)]
+[if (aJdlEntity.isClassValid())] 
+use Interlemd\Services\[aJdlEntity.name/]\[aJdlEntity.name/]Service;
+use Interlemd\Services\[aJdlEntity.name/]\[aJdlEntity.name/]ServiceImpl;
+[/if]
+ [/for]
+return function (ContainerBuilder $containerBuilder) {
+// Here we map our EntitiesService interface
+$containerBuilder->addDefinitions(['['/]
+//[protected('repositories')] 
+//[/protected]
+[for (aJdlEntity : JdlEntity | aJdlEntityList)]
+[if (aJdlEntity.isClassValid())] 
+[aJdlEntity.name/]Service::class =>static function (ContainerInterface $container) {
+            return new [aJdlEntity.name/]ServiceImpl($container->get(EntityManagerInterface::class));
+},
+[/if][/for]    
+
+]);
+};
+[/file]
+[/template]
+
+[query public getFileNameContainerServices(name : String) : String =
+	'app\\generatedServices.php'
+	/]
+

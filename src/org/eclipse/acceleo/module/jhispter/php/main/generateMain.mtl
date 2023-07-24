@@ -7,7 +7,7 @@
 [import org::eclipse::acceleo::module::jhispter::php::files::generate_entities_actions]
 [import org::eclipse::acceleo::module::jhispter::php::files::generate_routes]
 [import org::eclipse::acceleo::module::jhispter::php::files::generate_enums]
-[import org::eclipse::acceleo::module::jhispter::php::files::generate_repositories_to_container]
+[import org::eclipse::acceleo::module::jhispter::php::files::generate_servicess_to_container]
 
 
 [template public generateMainJdlEntity(aJdlEntity : JdlEntity)]
@@ -25,7 +25,7 @@
 [template public generateMainJdlFeature(aJdlFeature : JdlFeature)]
 [comment @main/]
 [generateEntityRoutes(aJdlFeature.siblings(JdlEntity))/]
-[generateRepositoriesToContainer(aJdlFeature.siblings(JdlEntity))/]   
+[generateServicesToContainer(aJdlFeature.siblings(JdlEntity))/]   
 [/template]
 
 [template public generateMainEnums(jdlEnum : JdlEnum)]
