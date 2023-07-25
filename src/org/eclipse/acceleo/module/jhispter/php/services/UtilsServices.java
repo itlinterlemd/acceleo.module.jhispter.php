@@ -98,7 +98,8 @@ public class UtilsServices {
 					return "string";
 			}
 				else if (jdlEntityField instanceof JdlEnumFieldType ) {
-					return ((io.github.jhipster.jdl.jdl.JdlEnumFieldType) jdlEntityField).getElement().getName();
+					//return ((io.github.jhipster.jdl.jdl.JdlEnumFieldType) jdlEntityField).getElement().getName();
+					return "string";
 				}
 					else if (jdlEntityField instanceof JdlBooleanFieldType) {
 						return "bool";

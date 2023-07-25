@@ -102,7 +102,7 @@ class Create[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
             "register.messages.error.fail", $entityName="[aJdlEntity.name/]");
         }
 
-        $[aJdlEntity.name.toLowerFirst()/]_json = (object) $body;
+        $[aJdlEntity.name.toLowerFirst()/]JSON = (object) $body;
         $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/](null,
         [aJdlEntity.getConstructorArgsAction()/] 
         );

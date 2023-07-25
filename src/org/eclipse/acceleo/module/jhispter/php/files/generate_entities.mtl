@@ -117,7 +117,7 @@ public function set[aEntityField.name.toUpperFirst()/]($[aEntityField.name/])
 
 [query public getValueForEnum(jdlEntityField : JdlFieldType) : String =
 if jdlEntityField.isEnumClass() then
-        ', type:"string", columnDefinition:"ENUM('+ jdlEntityField.oclAsType(JdlEnumFieldType).element.getValuesFromEnum()+')"'
+        ''
 	else
 		''
 	endif
