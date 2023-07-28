@@ -98,10 +98,20 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 	 */
 	public function update([aJdlEntity.name/] $[aJdlEntity.name.toLowerFirst()/]): [aJdlEntity.name/] {
         try {
+
+			$[aJdlEntity.name.toLowerFirst()/]Update = $this->find[aJdlEntity.name/]OfId($[aJdlEntity.name.toLowerFirst()/]->getId());	           
+			   
+			if (!isset($[aJdlEntity.name.toLowerFirst()/]Update)) {
+				      throw new ValidationException("[aJdlEntity.name.toLowerFirst()/].messages.error.[aJdlEntity.name.toLowerFirst()/]notexist", "[aJdlEntity.name/] no existe:".$[aJdlEntity.name.toLowerFirst()/]->getId());
+				            }
+			//TODO: make validations
+			[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
+			$[aJdlEntity.name.toLowerFirst()/]Update->set[aEntityField.name.toUpperFirst()/]($[aJdlEntity.name.toLowerFirst()/]->get[aEntityField.name.toUpperFirst()/]());
+			[/for]
             
-             $this->entityManager->persist($[aJdlEntity.name.toLowerFirst()/]);
+             $this->entityManager->persist($[aJdlEntity.name.toLowerFirst()/]Update);
              $this->entityManager->flush();
-             return $[aJdlEntity.name.toLowerFirst()/];
+             return $[aJdlEntity.name.toLowerFirst()/]Update;
          }
          catch (Exception $e)
          {
@@ -126,10 +136,12 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 				            }
 			//TODO: make validations
 			[for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
-			$[aJdlEntity.name.toLowerFirst()/]Update->[aEntityField.name/]=$[aJdlEntity.name.toLowerFirst()/]JSON->[aEntityField.name/];
+			$[aJdlEntity.name.toLowerFirst()/]Update->set[aEntityField.name.toUpperFirst()/]($[aJdlEntity.name.toLowerFirst()/]JSON->[aEntityField.name/]);
 			[/for]
 
-            return $this->update($[aJdlEntity.name.toLowerFirst()/]Update);
+			$this->entityManager->persist($[aJdlEntity.name.toLowerFirst()/]Update);
+            $this->entityManager->flush();
+            return $[aJdlEntity.name.toLowerFirst()/]Update;
         }
         catch (Exception $e)
         {
@@ -148,7 +160,7 @@ class [aJdlEntity.name/]ServiceImpl extends GeneralServiceAbstract implements [a
 	public function delete(int $[aJdlEntity.name.toLowerFirst()/]Id): bool {
 
         try {
-            $entity = $this->entityManager->getPartialReference("[aJdlEntity.name/]", $[aJdlEntity.name.toLowerFirst()/]Id);
+            $entity = $this->entityManager->getPartialReference([aJdlEntity.name/]::class, $[aJdlEntity.name.toLowerFirst()/]Id);
             $this->entityManager-> remove($entity);
             $this->entityManager->flush();
             return true;

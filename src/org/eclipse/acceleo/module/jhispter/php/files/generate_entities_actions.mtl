@@ -130,7 +130,8 @@ class Update[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
      */
     protected function action(): Response
     {
-        $body = $this->getFormData();
+        $[aJdlEntity.name.toLowerFirst()/]Id = $this->getEntityIdFromArg();
+		$body = $this->getFormData();
         //validations
         if([aJdlEntity.getValidationsListAction()/]
         ){
@@ -138,7 +139,14 @@ class Update[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
             "register.messages.error.fail", $entityName="[aJdlEntity.name/]");
         }
 
-        $[aJdlEntity.name.toLowerFirst()/]JSON = (object) $body;
+		$[aJdlEntity.name.toLowerFirst()/]JSON = (object) $body;
+
+        if($[aJdlEntity.name.toLowerFirst()/]JSON->id != $[aJdlEntity.name.toLowerFirst()/]Id){
+            return $this->respondWithMessage(ErrorConstants::HTTP_400_ERROR,ErrorConstants::ERR_VALIDATION,"Error registrando [aJdlEntity.name/].",
+            "register.messages.error.fail", $entityName="[aJdlEntity.name/]");
+        }
+
+        
         $[aJdlEntity.name.toLowerFirst()/] = new [aJdlEntity.name/]($[aJdlEntity.name.toLowerFirst()/]JSON->id,
         [aJdlEntity.getConstructorArgsAction()/]
         );
@@ -164,7 +172,7 @@ class Delete[aJdlEntity.name/]Action extends [aJdlEntity.name/]Action
      */
     protected function action(): Response
     {
-        $[aJdlEntity.name.toLowerFirst()/]Id = (int) $this->resolveArg('id');
+        $[aJdlEntity.name.toLowerFirst()/]Id = $this->getEntityIdFromArg();
         $[aJdlEntity.name.toLowerFirst()/] = $this->[aJdlEntity.name.toLowerFirst()/]Service->delete($[aJdlEntity.name.toLowerFirst()/]Id);
         $data['[\'message\']'/]  = "[aJdlEntity.name/] eliminado correctamente.";
         return $this->respondWithData($data);

@@ -193,7 +193,7 @@ public class UtilsServices {
 		return "/**\r\n"
 				+ "* @Id\r\n"
 				+ "* @Column(name = \""+element+"\", type=\"integer\")\r\n"
-				+ "* @GeneratedValue(strategy=\"IDENTITY\")\r\n"
+				+ "* @GeneratedValue(strategy=\"AUTO\")\r\n"
 				+ "*/";
 }
 	

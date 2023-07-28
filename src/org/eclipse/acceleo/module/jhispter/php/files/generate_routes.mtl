@@ -33,7 +33,7 @@ $app->group('/api/[aJdlEntity.name.toLower()/]s', function (Group $group) {
         $group->get('', List[aJdlEntity.name/]Action::class);
         $group->get('/{id}', View[aJdlEntity.name/]Action::class);
  		$group->post('', Create[aJdlEntity.name/]Action::class);
-		$group->put('', Update[aJdlEntity.name/]Action::class);
+		$group->put('/{id}', Update[aJdlEntity.name/]Action::class);
 		$group->delete('/{id}', Delete[aJdlEntity.name/]Action::class);
     });
 [/if]

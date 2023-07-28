@@ -24,11 +24,11 @@ use Doctrine\ORM\Mapping\Table;
 class [aJdlEntity.name/] implements JsonSerializable
 {
 [''.getIdEntityAnnotation()/]
-private int $id;
+private ?int $id;
 
 [for (aEntityField : JdlEntityField | aJdlEntity.fieldDefinition.fields)]
 [aEntityField.getAnnotationAtt()/]
-private [aEntityField.eAllContents().toString().hasValidator()/][aEntityField.type.getEntityFieldTypeName()/] $[aEntityField.name/];
+private [aEntityField.hasValidator()/][aEntityField.type.getEntityFieldTypeName()/] $[aEntityField.name/];
 [/for]
 public function __construct(?int $id, [aJdlEntity.getConstructorArgs()/])
     {
@@ -107,13 +107,13 @@ public function set[aEntityField.name.toUpperFirst()/]($[aEntityField.name/])
 	endif
 	endif
 	/]
-[query public hasValidator(name : String) : String =
-	if name.contains('ValidatorImpl') then
-		'?'
-	else
-		''
-	endif
-	/]
+[query public hasValidator(aEntityField : JdlEntityField) : String =
+  if aEntityField.eAllContents()->exists(c | c.toString().contains('ValidatorImpl')) then
+    ''
+  else
+    '?'
+  endif
+/]
 
 [query public getValueForEnum(jdlEntityField : JdlFieldType) : String =
 if jdlEntityField.isEnumClass() then
