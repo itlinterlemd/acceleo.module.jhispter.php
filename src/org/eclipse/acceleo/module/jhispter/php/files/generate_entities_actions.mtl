@@ -24,6 +24,10 @@ abstract class [aJdlEntity.name/]Action extends Action
         $this->[aJdlEntity.name.toLowerFirst()/]Service = $[aJdlEntity.name.toLowerFirst()/]Service;
  		$this->[aJdlEntity.name.toLowerFirst()/]Service ->setDataSession($this->dataSession); 
     }
+
+ 	protected function getService(){
+        return $this->[aJdlEntity.name.toLowerFirst()/]Service;
+    }
 }
 [/file]
 [file (aJdlEntity.name.getFileNameListAction(), false, 'UTF-8')]
